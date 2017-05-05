@@ -1,7 +1,7 @@
 function setup() {
-	maze(10, 10);
-	while (!maze.continueGeneration()) ;
-	console.log(maze);
+	var m = new maze(10, 10);
+	while (!m.continueGeneration()) ;
+	console.log(m);
 }
 
 function draw() {
