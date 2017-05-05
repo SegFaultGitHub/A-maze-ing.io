@@ -1,6 +1,6 @@
 function setup() {
 	maze(10, 10);
-	while (!maze.continuegeneration()) ;
+	while (!maze.continueGeneration()) ;
 	console.log(maze);
 }
 
