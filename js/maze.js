@@ -1,7 +1,6 @@
 function maze(width, height) {
 	this.width = width;
 	this.height = height;
-	this.reset();
 
 	this.reset = function() {
 		this.cellArray = new Array(widht);
@@ -18,6 +17,8 @@ function maze(width, height) {
 			y: random(this.height)
 		});
 	};
+	
+	this.reset();
 
 	this.continueGeneration = function() {
 
