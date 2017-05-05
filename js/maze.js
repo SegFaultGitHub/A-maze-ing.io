@@ -1,6 +1,8 @@
 function maze(width, height) {
 	this.width = width;
 	this.height = height;
+	this.cellArray = null;
+	this.path = null;
 
 	this.reset = function() {
 		this.cellArray = new Array(width);
