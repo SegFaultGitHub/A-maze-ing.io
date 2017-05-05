@@ -12,8 +12,8 @@ function maze(width, height) {
 		}
 		this.path = [];
 		this.path.push({
-			x: random(this.width),
-			y: random(this.height)
+			x: floor(random(this.width)),
+			y: floor(random(this.height))
 		});
 	};
 
@@ -32,7 +32,7 @@ function maze(width, height) {
 				if (!this.cellArray[vector.x][vector.y].visited) choices.push(vector);
 		});
 		if (choices.length === 0) return null;
-		else return choices[random(choices.length)];
+		else return choices[floor(random(choices.length))];
 	};
 
 	this.continueGeneration = function() {
