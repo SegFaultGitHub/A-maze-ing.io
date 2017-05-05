@@ -1,7 +1,7 @@
 function cell() {
 	this.content = 0b0000;
 	this.visited = false;
-	// this.color = color(0, 0, 0);
+	this.color = new color(0, 0, 0);
 
 	this.setUp = function() {
 		this.content |= 0b1000;
