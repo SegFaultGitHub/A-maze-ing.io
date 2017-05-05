@@ -3,7 +3,7 @@ function maze(width, height) {
 	this.height = height;
 
 	this.reset = function() {
-		this.cellArray = new Array(widht);
+		this.cellArray = new Array(width);
 		for (var i = 0; i < this.width; i++) {
 			this.cellArray = new Array(height);
 			for (var j = 0; j < this.height; j++) {
@@ -17,7 +17,7 @@ function maze(width, height) {
 			y: random(this.height)
 		});
 	};
-	
+
 	this.reset();
 
 	this.continueGeneration = function() {
