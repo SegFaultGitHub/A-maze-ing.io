@@ -5,7 +5,7 @@ function maze(width, height) {
 	this.reset = function() {
 		this.cellArray = new Array(width);
 		for (var i = 0; i < this.width; i++) {
-			this.cellArray = new Array(height);
+			this.cellArray[i] = new Array(height);
 			for (var j = 0; j < this.height; j++) {
 				cellArray[i][j] = cell();
 				console.log(cellArray[i][j]);
