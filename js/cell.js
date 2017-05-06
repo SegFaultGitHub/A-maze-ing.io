@@ -28,16 +28,16 @@ function cell() {
     };
 
     this.isUp = function() {
-        return (content & 0b1000) !== 0;
+        return (this.content & 0b1000) !== 0;
     };
     this.isDown = function() {
-        return (content & 0b0100) !== 0;
+        return (this.content & 0b0100) !== 0;
     };
     this.isLeft = function() {
-        return (content & 0b0010) !== 0;
+        return (this.content & 0b0010) !== 0;
     };
     this.isRight = function() {
-        return (content & 0b0001) !== 0;
+        return (this.content & 0b0001) !== 0;
     };
 
     function drawShape(shape) {
@@ -64,20 +64,21 @@ function cell() {
         }
     }
 
-    function place(angle, x, y, s, cs) {
+    function place(angle, x, y, cellSize) {
+        var s = cellSize / 100;
         switch (angle) {
             case 90:
-                translate(x + cs, y);
+                translate(x + cellSize, y);
                 scale(s);
                 rotate(PI / 2);
                 break;
             case -90:
-                translate(x, y + cs);
+                translate(x, y + cellSize);
                 scale(s);
                 rotate(-PI / 2);
                 break;
             case 180:
-                translate(x + cs, y + cs);
+                translate(x + cellSize, y + cellSize);
                 scale(s);
                 rotate(PI);
                 break;
@@ -88,76 +89,76 @@ function cell() {
         }
     }
 
-    this.draw = function(x, y, s, cs) {
+    this.draw = function(x, y, cellSize) {
         push();
         fill(color(this.r, this.g, this.b));
+        var scale = cellSize / 100;
         switch (this.content) {
             case 0b0000:
                 break;
             case 0b1100:
-                place(0, x, y, s, cs);
+                place(0, x, y, cellSize);
                 drawShape("straight");
                 break;
             case 0b0011:
-                place(90, x, y, s, cs);
+                place(90, x, y, cellSize);
                 drawShape("straight");
                 break;
             case 0b1010:
-                place(180, x, y, s, cs);
+                place(180, x, y, cellSize);
                 drawShape("corner");
                 break;
             case 0b0110:
-                place(90, x, y, s, cs);
+                place(90, x, y, cellSize);
                 drawShape("corner");
                 break;
             case 0b1001:
-                place(-90, x, y, s, cs);
+                place(-90, x, y, cellSize);
                 drawShape("corner");
                 break;
             case 0b0101:
-                place(0, x, y, s, cs);
+                place(0, x, y, cellSize);
                 drawShape("corner");
                 break;
             case 0b1000:
-                place(180, x, y, s, cs);
+                place(180, x, y, cellSize);
                 drawShape("impasse");
                 break;
             case 0b0100:
-                place(0, x, y, s, cs);
+                place(0, x, y, cellSize);
                 drawShape("impasse");
                 break;
             case 0b0010:
-                place(90, x, y, s, cs);
+                place(90, x, y, cellSize);
                 drawShape("impasse");
                 break;
             case 0b0001:
-                place(-90, x, y, s, cs);
+                place(-90, x, y, cellSize);
                 drawShape("impasse");
                 break;
             case 0b1111:
-                place(0, x, y, s, cs);
+                place(0, x, y, cellSize);
                 drawShape("cross");
                 break;
             case 0b1110:
-                place(90, x, y, s, cs);
+                place(90, x, y, cellSize);
                 drawShape("t");
                 break;
             case 0b1101:
-                place(-90, x, y, s, cs);
+                place(-90, x, y, cellSize);
                 drawShape("t");
                 break;
             case 0b1011:
-                place(180, x, y, s, cs);
+                place(180, x, y, cellSize);
                 drawShape("t");
                 break;
             case 0b0111:
-                place(0, x, y, s, cs);
+                place(0, x, y, cellSize);
                 drawShape("t");
                 break;
             default:
                 return;
         }
         pop();
-        // image(img, x, y, img.width * scale, img.height * scale);
     }
 }
