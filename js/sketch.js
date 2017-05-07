@@ -2,13 +2,25 @@ var maze;
 var width, height;
 var cellSize;
 var player;
+var touch = {
+	start: undefined,
+	end: undefined,
+	send: undefined
+};
 
-function touchMoved() {
-	alert({
+function touchStarted() {
+	touch.start = {
 		x: mouseX,
 		y: mouseY
-	})
-	return false;
+	};
+}
+
+function touchEnded() {
+	touch.end = {
+		x: mouseX,
+		y: mouseY
+	};
+	touch.send = true;
 }
 
 function setCanva() {
@@ -48,14 +60,14 @@ function update() {
     if (!maze.finished) {
         maze.continueGeneration();
     } else {
-        player.update(maze);
-        if (player.update(maze)) {
+        if (player.update(maze, touch)) {
             player.reset();
             setCanva();
             var params = getMazeParams();
             maze.reset(params.dimensions, params.offset);
         }
     }
+	touch.send = false;
 }
 
 function draw() {

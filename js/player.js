@@ -15,25 +15,46 @@ function Player() {
     }
 
     this.reset();
-    
-    this.update = function(maze) {
+
+    this.update = function(maze, touch) {
         if (!this.canMove) {
             if (!isKeyPressed) this.canMove = true;
         } else {
+            var up, down, left, right;
+            if (touch.send) {
+                var diff = {
+                    x: touch.end.x - touch.start.x,
+                    y: touch.end.y - touch.start.y
+                };
+                if (Math.abs(diff.x) > Math.abs(diff.y)) {
+                    if (diff.x > 0) {
+                        right = true;
+                    } else {
+                        left = true;
+                    }
+                } else {
+                    if (diff.y > 0) {
+                        down = true;
+                    } else {
+                        up = true;
+                    }
+                }
+                console.log(diff);
+            }
             var cell = maze.cellArray[this.position.x][this.position.y];
-            if (keyIsDown(UP_ARROW) && cell.isUp() && (this.position.x !== 0 || this.position.y !== 0)) {
+            if ((up || keyIsDown(UP_ARROW)) && cell.isUp() && (this.position.x !== 0 || this.position.y !== 0)) {
                 this.position.y--;
                 this.canMove = false;
-            } else if (keyIsDown(DOWN_ARROW) && cell.isDown()) {
+            } else if ((down || keyIsDown(DOWN_ARROW)) && cell.isDown()) {
                 if (this.position.x === maze.dimensions.width - 1 && this.position.y === maze.dimensions.height - 1) {
                     return true;
                 }
                 this.position.y++;
                 this.canMove = false;
-            } else if (keyIsDown(LEFT_ARROW) && cell.isLeft()) {
+            } else if ((left || keyIsDown(LEFT_ARROW)) && cell.isLeft()) {
                 this.position.x--;
                 this.canMove = false;
-            } else if (keyIsDown(RIGHT_ARROW) && cell.isRight()) {
+            } else if ((right || keyIsDown(RIGHT_ARROW)) && cell.isRight()) {
                 this.position.x++;
                 this.canMove = false;
             }
