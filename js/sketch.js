@@ -3,6 +3,14 @@ var width, height;
 var cellSize;
 var player;
 
+function touchMoved() {
+	alert({
+		x: mouseX,
+		y: mouseY
+	})
+	return false;
+}
+
 function setCanva() {
     width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);

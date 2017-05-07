@@ -15,7 +15,7 @@ function Player() {
     }
 
     this.reset();
-
+    
     this.update = function(maze) {
         if (!this.canMove) {
             if (!isKeyPressed) this.canMove = true;
