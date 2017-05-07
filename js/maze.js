@@ -1,4 +1,4 @@
-function maze(dimensions, offset) {
+function Maze(dimensions, offset) {
     this.pickcell = function(current) {
         toAdd = [{
                 x: current.x - 1,
@@ -87,7 +87,7 @@ function maze(dimensions, offset) {
         for (var i = 0; i < this.dimensions.width; i++) {
             this.cellArray[i] = new Array(height);
             for (var j = 0; j < this.dimensions.height; j++) {
-                this.cellArray[i][j] = new cell();
+                this.cellArray[i][j] = new Cell();
             }
         }
         this.path = [];
@@ -107,9 +107,9 @@ function maze(dimensions, offset) {
             this.colors.push(color(floor(random(256)), floor(random(256)), floor(random(256))));
         }
 
-        while (!this.finished) {
-            this.continueGeneration();
-        }
+        // while (!this.finished) {
+        //     this.continueGeneration();
+        // }
     };
 
     this.reset(dimensions, offset);

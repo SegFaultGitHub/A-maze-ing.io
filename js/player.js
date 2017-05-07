@@ -1,6 +1,9 @@
-function player() {
+function Player() {
     this.reset = function() {
         this.path = [{
+            x: 0,
+            y: -1
+        }, {
             x: 0,
             y: 0
         }];
@@ -21,7 +24,10 @@ function player() {
             if (keyIsDown(UP_ARROW) && cell.isUp() && (this.position.x !== 0 || this.position.y !== 0)) {
                 this.position.y--;
                 this.canMove = false;
-            } else if (keyIsDown(DOWN_ARROW) && cell.isDown() && (this.position.x !== maze.dimensions.width - 1 || this.position.y !== maze.dimensions.height - 1)) {
+            } else if (keyIsDown(DOWN_ARROW) && cell.isDown()) {
+                if (this.position.x === maze.dimensions.width - 1 && this.position.y === maze.dimensions.height - 1) {
+                    return true;
+                }
                 this.position.y++;
                 this.canMove = false;
             } else if (keyIsDown(LEFT_ARROW) && cell.isLeft()) {
@@ -33,25 +39,18 @@ function player() {
             }
 
             if (!this.canMove) {
-                if (this.path.length === 1) {
+                if (this.path[this.path.length - 2].x === this.position.x &&
+                    this.path[this.path.length - 2].y === this.position.y) {
+                    this.path.pop();
+                } else {
                     this.path.push({
                         x: this.position.x,
                         y: this.position.y
                     });
-                } else {
-                    if (this.path[this.path.length - 2].x === this.position.x &&
-                        this.path[this.path.length - 2].y === this.position.y) {
-                        this.path.pop();
-                    } else {
-                        this.path.push({
-                            x: this.position.x,
-                            y: this.position.y
-                        });
-                    }
                 }
             }
         }
-        return this.position.x === maze.dimensions.width - 1 && this.position.y === maze.dimensions.height - 1;
+        return false;
     }
 
     this.drawPath = function(cellSize, offset) {

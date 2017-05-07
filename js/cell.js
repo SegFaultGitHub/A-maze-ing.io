@@ -1,4 +1,4 @@
-function cell() {
+function Cell() {
     this.content = 0b0000;
     this.visited = false;
 	this.r = 0;
