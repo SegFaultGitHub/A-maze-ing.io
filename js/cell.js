@@ -10,11 +10,14 @@ function Cell(format) {
         this.g = g;
         this.b = b;
     };
+    this.setVisited = function() {
+        this.visited = true;
+    };
 
     switch (format) {
         case "square":
             this.content = 0b0000;
-            
+
             this.setUp = function() {
                 this.content |= 0b1000;
             };
@@ -26,9 +29,6 @@ function Cell(format) {
             };
             this.setRight = function() {
                 this.content |= 0b0001;
-            };
-            this.setVisited = function() {
-                this.visited = true;
             };
 
             this.isUp = function() {
@@ -63,6 +63,73 @@ function Cell(format) {
                 if (this.isRight()) {
                     rect(90, 10, 10, 80);
                 }
+                pop();
+            };
+            break;
+        case "hexagonal":
+            this.content = 0b000000;
+
+            this.setUpLeft = function() {
+                this.content |= 0b100000;
+            };
+            this.setUp = function() {
+                this.content |= 0b010000;
+            };
+            this.setUpRight = function() {
+                this.content |= 0b001000;
+            };
+            this.setDownRight = function() {
+                this.content |= 0b000100;
+            };
+            this.setDown = function() {
+                this.content |= 0b000010;
+            };
+            this.setDownLeft = function() {
+                this.content |= 0b000001;
+            };
+
+            this.isUpLeft = function() {
+                return (this.content & 0b100000) !== 0;
+            };
+            this.isUp = function() {
+                return (this.content & 0b010000) !== 0;
+            };
+            this.isUpRight = function() {
+                return (this.content & 0b001000) !== 0;
+            };
+            this.isDownRight = function() {
+                return (this.content & 0b000100) !== 0;
+            };
+            this.isDown = function() {
+                return (this.content & 0b000010) !== 0;
+            };
+            this.isDownLeft = function() {
+                return (this.content & 0b000001) !== 0;
+            };
+
+            function polygon(x, y, radius, npoints) {
+                var angle = TWO_PI / npoints;
+                beginShape();
+                for (var a = PI / 2, n = 0; n < npoints; n++, a += angle) {
+                    var sx = x + cos(a) * radius;
+                    var sy = y + sin(a) * radius;
+                    vertex(sx, sy);
+                }
+                endShape(CLOSE);
+            }
+
+            this.draw = function(i, j, cellSize, offset) {
+                push();
+                fill(color(this.r, this.g, this.b));
+                var s = cellSize / 100;
+                var x = i * cellSize + offset.x;
+                var y = j * cellSize + offset.y;
+                if (y % 2 === 0) {
+                    x += cellSize / 2;
+                }
+                translate(x, y);
+                scale(s);
+                polygon(0, 0, 50, 6);
                 pop();
             };
             break;

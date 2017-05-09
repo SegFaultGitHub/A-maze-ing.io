@@ -1,6 +1,7 @@
 var maze;
 var width, height;
 var cellSize;
+var play = false;
 var player;
 var touch = {
     start: undefined,
@@ -34,10 +35,10 @@ function setCanva() {
 function getMazeParams() {
     cellSize = Number(window.location.search.substring(1)) || 75;
     var dimensions = {
-        width: Math.min(40, floor(width / cellSize)),
-        height: Math.min(40, floor(height / cellSize)),
+        width: Math.min(10, floor(width / cellSize)),
+        height: Math.min(10, floor(height / cellSize)),
         cellSize: cellSize,
-        format: "square"
+        format: "hexagonal"
     };
     var offset = {
         x: (width - dimensions.width * cellSize) / 2,
@@ -52,15 +53,17 @@ function getMazeParams() {
 function setup() {
     noStroke();
     setCanva();
+    frameRate(10);
     var params = getMazeParams();
     maze = new Maze(params.dimensions, params.offset);
-    player = new Player();
+    if (play)
+        player = new Player();
 }
 
 function update() {
     if (!maze.finished) {
         maze.continueGeneration();
-    } else {
+    } else if (play) {
         if (player.update(maze, touch)) {
             player.reset();
             setCanva();
@@ -74,6 +77,6 @@ function update() {
 function draw() {
     update();
     maze.draw();
-    if (maze.finished)
+    if (maze.finished && play)
         player.draw(maze.dimensions.cellSize, maze.offset);
 }
