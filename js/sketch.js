@@ -3,24 +3,24 @@ var width, height;
 var cellSize;
 var player;
 var touch = {
-	start: undefined,
-	end: undefined,
-	send: undefined
+    start: undefined,
+    end: undefined,
+    send: undefined
 };
 
 function touchStarted() {
-	touch.start = {
-		x: mouseX,
-		y: mouseY
-	};
+    touch.start = {
+        x: mouseX,
+        y: mouseY
+    };
 }
 
 function touchEnded() {
-	touch.end = {
-		x: mouseX,
-		y: mouseY
-	};
-	touch.send = true;
+    touch.end = {
+        x: mouseX,
+        y: mouseY
+    };
+    touch.send = true;
 }
 
 function setCanva() {
@@ -36,7 +36,8 @@ function getMazeParams() {
     var dimensions = {
         width: Math.min(40, floor(width / cellSize)),
         height: Math.min(40, floor(height / cellSize)),
-        cellSize: cellSize
+        cellSize: cellSize,
+        format: "square"
     };
     var offset = {
         x: (width - dimensions.width * cellSize) / 2,
@@ -45,7 +46,7 @@ function getMazeParams() {
     return {
         dimensions: dimensions,
         offset: offset
-    }
+    };
 }
 
 function setup() {
@@ -67,12 +68,12 @@ function update() {
             maze.reset(params.dimensions, params.offset);
         }
     }
-	touch.send = false;
+    touch.send = false;
 }
 
 function draw() {
     update();
     maze.draw();
-	if (maze.finished)
-    	player.draw(maze.dimensions.cellSize, maze.offset);
+    if (maze.finished)
+        player.draw(maze.dimensions.cellSize, maze.offset);
 }

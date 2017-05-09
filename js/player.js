@@ -12,7 +12,7 @@ function Player() {
             y: 0
         };
         this.canMove = false;
-    }
+    };
 
     this.reset();
 
@@ -72,7 +72,7 @@ function Player() {
             }
         }
         return false;
-    }
+    };
 
     this.drawPath = function(cellSize, offset) {
         var s = cellSize / 100;
@@ -96,7 +96,6 @@ function Player() {
                     rect(30, 30, 40, 70);
                 }
             } else {
-                console.log()
                 rect(30, 30, 40, 40);
             }
             if (index !== array.length - 1) {
@@ -115,7 +114,7 @@ function Player() {
             }
             pop();
         });
-    }
+    };
 
     this.draw = function(cellSize, offset) {
         var s = cellSize / 100;
@@ -129,5 +128,5 @@ function Player() {
         fill(color(0, 0, 0));
         rect(15, 15, 70, 70);
         pop();
-    }
+    };
 }
