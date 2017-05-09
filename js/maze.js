@@ -121,12 +121,12 @@ function Maze(dimensions, offset) {
                 if (current.y % 2 === 0) {
                     toAdd = [{
                         x: current.x,
-                        y: current.y + 1
+                        y: current.y - 1
                     }, {
                         x: current.x + 1,
                         y: current.y - 1
                     }, {
-                        x: current.x - 1,
+                        x: current.x + 1,
                         y: current.y
                     }, {
                         x: current.x + 1,
@@ -191,46 +191,46 @@ function Maze(dimensions, offset) {
                     } else {
                         this.cellArray[next.x][next.y].visited = true;
                         this.path.push(next);
-                        if (current.x % 2 === 0) {
-                            if (next.x === current.x && next.y === current.y + 1) {
+                        if (current.y % 2 === 0) {
+                            if (next.x === current.x && next.y === current.y - 1) {
                                 this.cellArray[current.x][current.y].setUpLeft();
                                 this.cellArray[next.x][next.y].setDownRight();
-                            } else if (next.y === current.x + 1 && next.y === current.y - 1) {
-                                this.cellArray[current.x][current.y].setUp();
-                                this.cellArray[next.x][next.y].setDown();
-                            } else if (next.x === current.x - 1 && next.y === current.y) {
+                            } else if (next.x === current.x + 1 && next.y === current.y - 1) {
                                 this.cellArray[current.x][current.y].setUpRight();
                                 this.cellArray[next.x][next.y].setDownLeft();
+                            } else if (next.x === current.x + 1 && next.y === current.y) {
+                                this.cellArray[current.x][current.y].setRight();
+                                this.cellArray[next.x][next.y].setLeft();
                             } else if (next.x === current.x + 1 && next.y === current.y + 1) {
                                 this.cellArray[current.x][current.y].setDownRight();
                                 this.cellArray[next.x][next.y].setUpLeft();
                             } else if (next.x === current.x && next.y === current.y + 1) {
-                                this.cellArray[current.x][current.y].setDown();
-                                this.cellArray[next.x][next.y].setUp();
+                                this.cellArray[current.x][current.y].setDownLeft();
+                                this.cellArray[next.x][next.y].setUpRight();
                             } else if (next.x === current.x - 1 && next.y === current.y) {
-                                this.cellArray[current.x][current.y].setDownRight();
-                                this.cellArray[next.x][next.y].setUpLeft();
+                                this.cellArray[current.x][current.y].setLeft();
+                                this.cellArray[next.x][next.y].setRight();
                             }
                         }
                         else {
                             if (next.x === current.x - 1 && next.y === current.y - 1) {
                                 this.cellArray[current.x][current.y].setUpLeft();
                                 this.cellArray[next.x][next.y].setDownRight();
-                            } else if (next.y === current.x && next.y === current.y - 1) {
-                                this.cellArray[current.x][current.y].setUp();
-                                this.cellArray[next.x][next.y].setDown();
-                            } else if (next.x === current.x + 1 && next.y === current.y) {
+                            } else if (next.x === current.x && next.y === current.y - 1) {
                                 this.cellArray[current.x][current.y].setUpRight();
                                 this.cellArray[next.x][next.y].setDownLeft();
+                            } else if (next.x === current.x + 1 && next.y === current.y) {
+                                this.cellArray[current.x][current.y].setRight();
+                                this.cellArray[next.x][next.y].setLeft();
                             } else if (next.x === current.x && next.y === current.y + 1) {
                                 this.cellArray[current.x][current.y].setDownRight();
                                 this.cellArray[next.x][next.y].setUpLeft();
                             } else if (next.x === current.x - 1 && next.y === current.y + 1) {
-                                this.cellArray[current.x][current.y].setDown();
-                                this.cellArray[next.x][next.y].setUp();
+                                this.cellArray[current.x][current.y].setDownLeft();
+                                this.cellArray[next.x][next.y].setUpRight();
                             } else if (next.x === current.x - 1 && next.y === current.y) {
-                                this.cellArray[current.x][current.y].setDownRight();
-                                this.cellArray[next.x][next.y].setUpLeft();
+                                this.cellArray[current.x][current.y].setLeft();
+                                this.cellArray[next.x][next.y].setRight();
                             }
                         }
                     }
