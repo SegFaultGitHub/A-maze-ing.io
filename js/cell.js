@@ -118,6 +118,17 @@ function Cell(format) {
                 endShape(CLOSE);
             }
 
+            function fullHexagon(x, y) {
+                beginShape();
+                vertex(50, 0);
+                vertex(100, 30);
+                vertex(100, 70);
+                vertex(50, 100);
+                vertex(0, 70);
+                vertex(0, 30);
+                endShape(CLOSE);
+            }
+
             this.draw = function(i, j, cellSize, offset) {
                 push();
                 var s = cellSize / 100;
@@ -128,60 +139,57 @@ function Cell(format) {
                 }
                 translate(x, y);
                 scale(s);
-                if (!this.visited) {
-                    fill(color(16));
-                    hexagon(0, 0, 50, 6);
-                } else {
-                    fill(color(this.r, this.g, this.b));
-                    hexagon(0, 0, 50, 6);
-                    if (this.isUpLeft()) {
-                        beginShape();
-                        vertex(5, 32);
-                        vertex(0, 30);
-                        vertex(50, 0);
-                        vertex(50, 5);
-                        endShape(CLOSE);
-                    }
-                    if (this.isUpRight()) {
-                        beginShape();
-                        vertex(50, 5);
-                        vertex(50, 0);
-                        vertex(100, 30);
-                        vertex(95, 32);
-                        endShape(CLOSE);
-                    }
-                    if (this.isRight()) {
-                        beginShape();
-                        vertex(95, 32);
-                        vertex(100, 30);
-                        vertex(100, 70);
-                        vertex(95, 68);
-                        endShape(CLOSE);
-                    }
-                    if (this.isDownRight()) {
-                        beginShape();
-                        vertex(100, 70);
-                        vertex(95, 68);
-                        vertex(50, 95);
-                        vertex(50, 100);
-                        endShape(CLOSE);
-                    }
-                    if (this.isDownLeft()) {
-                        beginShape();
-                        vertex(0, 70);
-                        vertex(50, 100);
-                        vertex(50, 95);
-                        vertex(5, 68);
-                        endShape(CLOSE);
-                    }
-                    if (this.isLeft()) {
-                        beginShape();
-                        vertex(0, 30);
-                        vertex(0, 70);
-                        vertex(5, 68);
-                        vertex(5, 32);
-                        endShape(CLOSE);
-                    }
+                fill(color(255));
+                fullHexagon(0, 0, 50, 6);
+                fill(color(this.r, this.g, this.b));
+                hexagon(0, 0);
+                if (this.isUpLeft()) {
+                    beginShape();
+                    vertex(5, 32);
+                    vertex(0, 30);
+                    vertex(50, 0);
+                    vertex(50, 5);
+                    endShape(CLOSE);
+                }
+                if (this.isUpRight()) {
+                    beginShape();
+                    vertex(50, 5);
+                    vertex(50, 0);
+                    vertex(100, 30);
+                    vertex(95, 32);
+                    endShape(CLOSE);
+                }
+                if (this.isRight()) {
+                    beginShape();
+                    vertex(95, 32);
+                    vertex(100, 30);
+                    vertex(100, 70);
+                    vertex(95, 68);
+                    endShape(CLOSE);
+                }
+                if (this.isDownRight()) {
+                    beginShape();
+                    vertex(100, 70);
+                    vertex(95, 68);
+                    vertex(50, 95);
+                    vertex(50, 100);
+                    endShape(CLOSE);
+                }
+                if (this.isDownLeft()) {
+                    beginShape();
+                    vertex(0, 70);
+                    vertex(50, 100);
+                    vertex(50, 95);
+                    vertex(5, 68);
+                    endShape(CLOSE);
+                }
+                if (this.isLeft()) {
+                    beginShape();
+                    vertex(0, 30);
+                    vertex(0, 70);
+                    vertex(5, 68);
+                    vertex(5, 32);
+                    endShape(CLOSE);
                 }
                 // textSize(30);
                 // fill(0);

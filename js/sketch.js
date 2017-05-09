@@ -2,7 +2,7 @@ var maze;
 var width, height;
 var cellSize;
 var player;
-var format = "square";
+var format = "hexagonal";
 var play = format === "square";
 var touch = {
     start: undefined,
@@ -34,28 +34,31 @@ function setCanva() {
 }
 
 function getMazeParams() {
-    cellSize = Number(window.location.search.substring(1)) || 75;
-    var dimensions = {
-        width: Math.min(30, floor(width / cellSize)),
-        height: Math.min(30, floor(height / cellSize)),
-        cellSize: cellSize,
-        format: format
-    };
-    if (dimensions.format === "hexagonal") {
-
-    }
-    var offset;
-    switch (dimensions.format) {
+    cellSize = Number(window.location.search.substring(1)) || 200;
+    var dimensions, offset;
+    switch (format) {
         case "square":
+            dimensions = {
+                width: Math.min(30, floor(width / cellSize)),
+                height: Math.min(30, floor(height /  cellSize)),
+                cellSize: cellSize,
+                format: format
+            };
             offset = {
                 x: (width - dimensions.width * cellSize) / 2,
                 y: (height - dimensions.height * cellSize) / 2
             };
             break;
         case "hexagonal":
+            dimensions = {
+                width: Math.min(100, floor(width / cellSize) - 1),
+                height: Math.min(100, floor(height /  (0.75 * cellSize))),
+                cellSize: cellSize,
+                format: format
+            };
             offset = {
                 x: (width - dimensions.width * cellSize - cellSize / 2) / 2,
-                y: (height - dimensions.height * cellSize * 0.7) / 2
+                y: (height - dimensions.height * cellSize * 0.7 - cellSize * 0.3) / 2
             };
             break;
     }
@@ -71,6 +74,8 @@ function setup() {
     frameRate(60);
     var params = getMazeParams();
     maze = new Maze(params.dimensions, params.offset);
+    while (!maze.finished)
+        maze.continueGeneration();
     if (play)
         player = new Player();
 }
