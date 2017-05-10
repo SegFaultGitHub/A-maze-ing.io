@@ -72,38 +72,38 @@ function Cell(format) {
             this.setUpLeft = function() {
                 this.content |= 0b100000;
             };
-            this.setUp = function() {
+            this.setUpRight = function() {
                 this.content |= 0b010000;
             };
-            this.setUpRight = function() {
+            this.setRight = function() {
                 this.content |= 0b001000;
             };
             this.setDownRight = function() {
                 this.content |= 0b000100;
             };
-            this.setDown = function() {
+            this.setDownLeft = function() {
                 this.content |= 0b000010;
             };
-            this.setDownLeft = function() {
+            this.setLeft = function() {
                 this.content |= 0b000001;
             };
 
             this.isUpLeft = function() {
                 return (this.content & 0b100000) !== 0;
             };
-            this.isUp = function() {
+            this.isUpRight = function() {
                 return (this.content & 0b010000) !== 0;
             };
-            this.isUpRight = function() {
+            this.isRight = function() {
                 return (this.content & 0b001000) !== 0;
             };
             this.isDownRight = function() {
                 return (this.content & 0b000100) !== 0;
             };
-            this.isDown = function() {
+            this.isDownLeft = function() {
                 return (this.content & 0b000010) !== 0;
             };
-            this.isDownLeft = function() {
+            this.isLeft = function() {
                 return (this.content & 0b000001) !== 0;
             };
 
@@ -122,14 +122,50 @@ function Cell(format) {
                 push();
                 fill(color(this.r, this.g, this.b));
                 var s = cellSize / 100;
-                var x = i * cellSize + offset.x;
-                var y = j * cellSize + offset.y;
-                if (y % 2 === 0) {
+                var x = i * (cellSize) + offset.x;
+                var y = j * (cellSize) + offset.y;
+                if (j % 2 === 0) {
                     x += cellSize / 2;
                 }
                 translate(x, y);
                 scale(s);
-                polygon(0, 0, 50, 6);
+                // fill(255);
+                // rect(20, 20, 10, 10);
+                // if (this.isUpLeft()) {
+                //     fill(color(this.r, this.g, this.b));
+                //     rect(20, 20, 10, 10);
+                // }
+                // fill(255);
+                // rect(70, 20, 10, 10);
+                // if (this.isUpRight()) {
+                //     fill(color(this.r, this.g, this.b));
+                //     rect(70, 20, 10, 10);
+                // }
+                // fill(255);
+                // rect(85, 45, 10, 10);
+                // if (this.isRight()) {
+                //     fill(color(this.r, this.g, this.b));
+                //     rect(85, 45, 10, 10);
+                // }
+                // fill(255);
+                // rect(70, 70, 10, 10);
+                // if (this.isDownRight()) {
+                //     fill(color(this.r, this.g, this.b));
+                //     rect(70, 70, 10, 10);
+                // }
+                // fill(255);
+                // rect(20, 70, 10, 10);
+                // if (this.isDownLeft()) {
+                //     fill(color(this.r, this.g, this.b));
+                //     rect(20, 70, 10, 10);
+                // }
+                // fill(255);
+                // rect(5, 45, 10, 10);
+                // if (this.isLeft()) {
+                //     fill(color(this.r, this.g, this.b));
+                //     rect(5, 45, 10, 10);
+                // }
+                rect(0, 0, 95, 95);
                 pop();
             };
             break;

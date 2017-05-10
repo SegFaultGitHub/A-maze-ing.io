@@ -35,8 +35,8 @@ function setCanva() {
 function getMazeParams() {
     cellSize = Number(window.location.search.substring(1)) || 75;
     var dimensions = {
-        width: Math.min(10, floor(width / cellSize)),
-        height: Math.min(10, floor(height / cellSize)),
+        width: Math.min(15, floor(width / cellSize)),
+        height: Math.min(15, floor(height / cellSize)),
         cellSize: cellSize,
         format: "hexagonal"
     };
@@ -53,7 +53,6 @@ function getMazeParams() {
 function setup() {
     noStroke();
     setCanva();
-    frameRate(10);
     var params = getMazeParams();
     maze = new Maze(params.dimensions, params.offset);
     if (play)
