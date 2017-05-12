@@ -49,6 +49,7 @@ function Maze(dimensions, offset) {
                         this.path.pop();
                         this.continueGeneration();
                     } else {
+                        this.cellArray[next.x][next.y].setColor(r, g, b);
                         this.cellArray[next.x][next.y].visited = true;
                         this.path.push(next);
                         if (next.x === current.x - 1) {
@@ -195,7 +196,7 @@ function Maze(dimensions, offset) {
                             if (next.x === current.x && next.y === current.y - 1) {
                                 this.cellArray[current.x][current.y].setUpLeft();
                                 this.cellArray[next.x][next.y].setDownRight();
-                            } else if (next.y === current.x + 1 && next.y === current.y - 1) {
+                            } else if (next.x === current.x + 1 && next.y === current.y - 1) {
                                 this.cellArray[current.x][current.y].setUpRight();
                                 this.cellArray[next.x][next.y].setDownLeft();
                             } else if (next.x === current.x + 1 && next.y === current.y) {
@@ -216,7 +217,7 @@ function Maze(dimensions, offset) {
                             if (next.x === current.x - 1 && next.y === current.y - 1) {
                                 this.cellArray[current.x][current.y].setUpLeft();
                                 this.cellArray[next.x][next.y].setDownRight();
-                            } else if (next.y === current.x && next.y === current.y - 1) {
+                            } else if (next.x === current.x && next.y === current.y - 1) {
                                 this.cellArray[current.x][current.y].setUpRight();
                                 this.cellArray[next.x][next.y].setDownLeft();
                             } else if (next.x === current.x + 1 && next.y === current.y) {

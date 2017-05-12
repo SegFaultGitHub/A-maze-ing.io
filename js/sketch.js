@@ -1,8 +1,9 @@
 var maze;
 var width, height;
 var cellSize;
-var play = false;
 var player;
+var format = "square";
+var play = format === "square";
 var touch = {
     start: undefined,
     end: undefined,
@@ -33,17 +34,34 @@ function setCanva() {
 }
 
 function getMazeParams() {
-    cellSize = Number(window.location.search.substring(1)) || 75;
-    var dimensions = {
-        width: Math.min(15, floor(width / cellSize)),
-        height: Math.min(15, floor(height / cellSize)),
-        cellSize: cellSize,
-        format: "hexagonal"
-    };
-    var offset = {
-        x: (width - dimensions.width * cellSize) / 2,
-        y: (height - dimensions.height * cellSize) / 2
-    };
+    cellSize = Number(window.location.search.substring(1)) || 35;
+    var dimensions, offset;
+    switch (format) {
+        case "square":
+            dimensions = {
+                width: Math.min(30, floor(width / cellSize)),
+                height: Math.min(30, floor(height /  cellSize)),
+                cellSize: cellSize,
+                format: format
+            };
+            offset = {
+                x: (width - dimensions.width * cellSize) / 2,
+                y: (height - dimensions.height * cellSize) / 2
+            };
+            break;
+        case "hexagonal":
+            dimensions = {
+                width: Math.min(100, floor(width / cellSize) - 1),
+                height: Math.min(100, floor(height /  (0.75 * cellSize))),
+                cellSize: cellSize,
+                format: format
+            };
+            offset = {
+                x: (width - dimensions.width * cellSize - cellSize / 2) / 2,
+                y: (height - dimensions.height * cellSize * 0.7 - cellSize * 0.3) / 2
+            };
+            break;
+    }
     return {
         dimensions: dimensions,
         offset: offset
@@ -53,24 +71,36 @@ function getMazeParams() {
 function setup() {
     noStroke();
     setCanva();
+    smooth(4);
+    frameRate(60);
     var params = getMazeParams();
     maze = new Maze(params.dimensions, params.offset);
+    // while (!maze.finished)
+        // maze.continueGeneration();
     if (play)
         player = new Player();
 }
 
+var prevKeyIsPressed;
+
 function update() {
+    var params;
     if (!maze.finished) {
         maze.continueGeneration();
+    } else if (!play) {
+        setCanva();
+        params = getMazeParams();
+        maze.reset(params.dimensions, params.offset);
     } else if (play) {
         if (player.update(maze, touch)) {
             player.reset();
             setCanva();
-            var params = getMazeParams();
+            params = getMazeParams();
             maze.reset(params.dimensions, params.offset);
         }
     }
     touch.send = false;
+    prevKeyIsPressed = keyIsPressed;
 }
 
 function draw() {

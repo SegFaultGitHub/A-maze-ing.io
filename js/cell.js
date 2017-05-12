@@ -107,65 +107,91 @@ function Cell(format) {
                 return (this.content & 0b000001) !== 0;
             };
 
-            function polygon(x, y, radius, npoints) {
-                var angle = TWO_PI / npoints;
+            function hexagon(x, y) {
                 beginShape();
-                for (var a = PI / 2, n = 0; n < npoints; n++, a += angle) {
-                    var sx = x + cos(a) * radius;
-                    var sy = y + sin(a) * radius;
-                    vertex(sx, sy);
-                }
+                vertex(50, 5);
+                vertex(95, 32);
+                vertex(95, 68);
+                vertex(50, 95);
+                vertex(5, 68);
+                vertex(5, 32);
+                endShape(CLOSE);
+            }
+
+            function fullHexagon(x, y) {
+                beginShape();
+                vertex(50, 0);
+                vertex(100, 30);
+                vertex(100, 70);
+                vertex(50, 100);
+                vertex(0, 70);
+                vertex(0, 30);
                 endShape(CLOSE);
             }
 
             this.draw = function(i, j, cellSize, offset) {
                 push();
-                fill(color(this.r, this.g, this.b));
                 var s = cellSize / 100;
-                var x = i * (cellSize) + offset.x;
-                var y = j * (cellSize) + offset.y;
+                var x = i * cellSize + offset.x;
+                var y = j * (0.7 * cellSize) + offset.y;
                 if (j % 2 === 0) {
                     x += cellSize / 2;
                 }
                 translate(x, y);
                 scale(s);
-                // fill(255);
-                // rect(20, 20, 10, 10);
-                // if (this.isUpLeft()) {
-                //     fill(color(this.r, this.g, this.b));
-                //     rect(20, 20, 10, 10);
-                // }
-                // fill(255);
-                // rect(70, 20, 10, 10);
-                // if (this.isUpRight()) {
-                //     fill(color(this.r, this.g, this.b));
-                //     rect(70, 20, 10, 10);
-                // }
-                // fill(255);
-                // rect(85, 45, 10, 10);
-                // if (this.isRight()) {
-                //     fill(color(this.r, this.g, this.b));
-                //     rect(85, 45, 10, 10);
-                // }
-                // fill(255);
-                // rect(70, 70, 10, 10);
-                // if (this.isDownRight()) {
-                //     fill(color(this.r, this.g, this.b));
-                //     rect(70, 70, 10, 10);
-                // }
-                // fill(255);
-                // rect(20, 70, 10, 10);
-                // if (this.isDownLeft()) {
-                //     fill(color(this.r, this.g, this.b));
-                //     rect(20, 70, 10, 10);
-                // }
-                // fill(255);
-                // rect(5, 45, 10, 10);
-                // if (this.isLeft()) {
-                //     fill(color(this.r, this.g, this.b));
-                //     rect(5, 45, 10, 10);
-                // }
-                rect(0, 0, 95, 95);
+                fill(color(this.r, this.g, this.b));
+                hexagon(0, 0);
+                if (this.isUpLeft()) {
+                    beginShape();
+                    vertex(5, 32);
+                    vertex(0, 30);
+                    vertex(50, 0);
+                    vertex(50, 5);
+                    endShape(CLOSE);
+                }
+                if (this.isUpRight()) {
+                    beginShape();
+                    vertex(50, 5);
+                    vertex(50, 0);
+                    vertex(100, 30);
+                    vertex(95, 32);
+                    endShape(CLOSE);
+                }
+                if (this.isRight()) {
+                    beginShape();
+                    vertex(95, 32);
+                    vertex(100, 30);
+                    vertex(100, 70);
+                    vertex(95, 68);
+                    endShape(CLOSE);
+                }
+                if (this.isDownRight()) {
+                    beginShape();
+                    vertex(100, 70);
+                    vertex(95, 68);
+                    vertex(50, 95);
+                    vertex(50, 100);
+                    endShape(CLOSE);
+                }
+                if (this.isDownLeft()) {
+                    beginShape();
+                    vertex(0, 70);
+                    vertex(50, 100);
+                    vertex(50, 95);
+                    vertex(5, 68);
+                    endShape(CLOSE);
+                }
+                if (this.isLeft()) {
+                    beginShape();
+                    vertex(0, 30);
+                    vertex(0, 70);
+                    vertex(5, 68);
+                    vertex(5, 32);
+                    endShape(CLOSE);
+                }
+                // textSize(30);
+                // fill(0);
+                // text(i + "," + j, -30, 10);
                 pop();
             };
             break;
