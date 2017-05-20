@@ -1,14 +1,19 @@
 var maze;
-var width, height;
 var cellSize;
 var player;
-var format = "square";
-var play = format === "square";
 var touch = {
     start: undefined,
     end: undefined,
     send: undefined
 };
+var queryParams = {
+    format: "square",
+    width: 0,
+    height: 0,
+    cellSize: 0
+};
+var play;
+var formats = ["square", "hexagonal"];
 
 function touchStarted() {
     touch.start = {
@@ -26,39 +31,59 @@ function touchEnded() {
 }
 
 function setCanva() {
-    width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    var canva = createCanvas(width, height);
+    var query = window.location.search.substring(1);
+    queryParams.format = "square";
+    queryParams.width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    queryParams.height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    queryParams.cellSize = 40;
+    if (query) {
+        query = query.split("&");
+        query.forEach(function(item) {
+            item = item.split("=");
+            if (item.length != 2) return;
+            switch (item[0]) {
+                case "width": case "height": case "cellSize":
+                    queryParams[item[0]] = Number(item[1]) || queryParams[item[0]];
+                case "format":
+                    queryParams.format = formats.indexOf(item[1]) === -1 ? "square" : item[1];
+            }
+        })
+    }
+    queryParams.width = Math.max(queryParams.width, queryParams.cellSize);
+    queryParams.height = Math.max(queryParams.height, queryParams.cellSize);
+    console.log(queryParams);
+    play = queryParams.format === "square";
+    var canva = createCanvas(queryParams.width, queryParams.height);
     canva.parent("canva");
     background(0);
 }
 
 function getMazeParams() {
-    cellSize = Number(window.location.search.substring(1)) || 35;
+    console.log(window.location.search);
     var dimensions, offset;
-    switch (format) {
+    switch (queryParams.format) {
         case "square":
             dimensions = {
-                width: Math.min(30, floor(width / cellSize)),
-                height: Math.min(30, floor(height /  cellSize)),
-                cellSize: cellSize,
-                format: format
+                width: Math.min(60, floor(queryParams.width / queryParams.cellSize)),
+                height: Math.min(60, floor(queryParams.height /  queryParams.cellSize)),
+                cellSize: queryParams.cellSize,
+                format: queryParams.format
             };
             offset = {
-                x: (width - dimensions.width * cellSize) / 2,
-                y: (height - dimensions.height * cellSize) / 2
+                x: (queryParams.width - dimensions.width * queryParams.cellSize) / 2,
+                y: (queryParams.height - dimensions.height * queryParams.cellSize) / 2
             };
             break;
         case "hexagonal":
             dimensions = {
-                width: Math.min(100, floor(width / cellSize) - 1),
-                height: Math.min(100, floor(height /  (0.75 * cellSize))),
-                cellSize: cellSize,
-                format: format
+                width: Math.min(60, floor(queryParams.width / queryParams.cellSize) - 1),
+                height: Math.min(60, floor(queryParams.height /  (0.75 * queryParams.cellSize))),
+                cellSize: queryParams.cellSize,
+                format: queryParams.format
             };
             offset = {
-                x: (width - dimensions.width * cellSize - cellSize / 2) / 2,
-                y: (height - dimensions.height * cellSize * 0.7 - cellSize * 0.3) / 2
+                x: (queryParams.width - dimensions.width * queryParams.cellSize - queryParams.cellSize / 2) / 2,
+                y: (queryParams.height - dimensions.height * queryParams.cellSize * 0.7 - queryParams.cellSize * 0.3) / 2
             };
             break;
     }
@@ -73,8 +98,9 @@ function setup() {
     setCanva();
     smooth(4);
     frameRate(60);
-    var params = getMazeParams();
-    maze = new Maze(params.dimensions, params.offset);
+    var mazeParams = getMazeParams();
+    console.log(mazeParams)
+    maze = new Maze(mazeParams.dimensions, mazeParams.offset);
     // while (!maze.finished)
         // maze.continueGeneration();
     if (play)
@@ -84,19 +110,19 @@ function setup() {
 var prevKeyIsPressed;
 
 function update() {
-    var params;
+    var mazeParams;
     if (!maze.finished) {
         maze.continueGeneration();
     } else if (!play) {
         setCanva();
-        params = getMazeParams();
-        maze.reset(params.dimensions, params.offset);
+        mazeParams = getMazeParams();
+        maze.reset(mazeParams.dimensions, mazeParams.offset);
     } else if (play) {
         if (player.update(maze, touch)) {
             player.reset();
             setCanva();
-            params = getMazeParams();
-            maze.reset(params.dimensions, params.offset);
+            mazeParams = getMazeParams();
+            maze.reset(mazeParams.dimensions, mazeParams.offset);
         }
     }
     touch.send = false;
