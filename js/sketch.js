@@ -64,8 +64,10 @@ function getMazeParams() {
     switch (queryParams.format) {
         case "square":
             dimensions = {
-                width: Math.min(60, floor(queryParams.width / queryParams.cellSize)),
-                height: Math.min(60, floor(queryParams.height /  queryParams.cellSize)),
+                //width: Math.min(60, floor(queryParams.width / queryParams.cellSize)),
+                //height: Math.min(60, floor(queryParams.height /  queryParams.cellSize)),
+                width: floor(queryParams.width / queryParams.cellSize),
+                height: floor(queryParams.height /  queryParams.cellSize),
                 cellSize: queryParams.cellSize,
                 format: queryParams.format
             };
@@ -76,8 +78,10 @@ function getMazeParams() {
             break;
         case "hexagonal":
             dimensions = {
-                width: Math.min(60, floor(queryParams.width / queryParams.cellSize) - 1),
-                height: Math.min(60, floor(queryParams.height /  (0.75 * queryParams.cellSize))),
+                //width: Math.min(60, floor(queryParams.width / queryParams.cellSize) - 1),
+                //height: Math.min(60, floor(queryParams.height /  (0.75 * queryParams.cellSize))),
+                width: floor(queryParams.width / queryParams.cellSize) - 1,
+                height: floor(queryParams.height /  (0.75 * queryParams.cellSize)),
                 cellSize: queryParams.cellSize,
                 format: queryParams.format
             };
