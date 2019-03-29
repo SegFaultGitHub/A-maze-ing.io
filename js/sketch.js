@@ -115,9 +115,10 @@ var prevKeyIsPressed;
 
 function update() {
     var mazeParams;
-    if (!maze.finished) {
+    while (!maze.finished) {
         maze.continueGeneration();
-    } else if (!play) {
+    }
+    if (!play) {
         setCanva();
         mazeParams = getMazeParams();
         maze.reset(mazeParams.dimensions, mazeParams.offset);
